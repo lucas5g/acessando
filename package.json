@@ -1,0 +1,33 @@
+{
+  "name": "bun-react-template",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.tsx",
+  "module": "src/index.tsx",
+  "scripts": {
+    "dev": "bun src/index.tsx",
+    "dev-old": "bun --hot src/index.tsx",
+    "start": "NODE_ENV=production bun src/index.tsx",
+    "build": "bun run build.ts"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
+    "@prisma/client": "^6.5.0",
+    "axios": "^1.8.3",
+    "bun-plugin-tailwind": "^0.0.14",
+    "elevenlabs": "^1.54.0",
+    "react": "^19",
+    "react-dom": "^19",
+    "react-router": "^7.3.0",
+    "tailwindcss": "^4.0.6",
+    "translate": "^3.0.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "prisma": "^6.5.0"
+  }
+}
