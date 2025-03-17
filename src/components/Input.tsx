@@ -9,7 +9,7 @@ export function Input({ showLabel = true, ...props }: Readonly<InputProps>) {
           className="hover:cursor-pointer"
           htmlFor={props.name}
         >
-          props.placeholder
+          {props.placeholder}
         </label>
       }
       <input
