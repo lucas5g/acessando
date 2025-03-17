@@ -79,8 +79,12 @@ export function Memorize() {
 
       <Card>
         <h2>List</h2>
-        <form onSubmit={findAllPhrase}>
-          <Input name="searchTag" placeholder="Search by Tag" />
+        <form 
+          onSubmit={findAllPhrase}
+          className="flex gap-2"
+          >
+          <Input name="searchTag" placeholder="Search by Tag" showLabel={false} />
+          <Button type="submit">Search</Button>
         </form>
         {phrases.length === 0 &&
           <p className="italic p-5">No phrases found. :(</p>
@@ -97,9 +101,9 @@ export function Memorize() {
               {phrases.map((phrase: any) => (
                 <tr
                   key={phrase.id}
-                  className="border-b last:border-0 hover:bg-gray-800 "
+                  className="border-b last:border-0 hover:bg-gray-800 transition "
                 >
-                  <td className="py-4">
+                  <td className="py-4 pl-2">
                     {phrase.english} <br />
                     <i>
                       {phrase.portuguese}

@@ -74,7 +74,7 @@ export class PhraseService {
     })
     return res.map(row => ({
       ...row,
-      audio: `http://localhost:3000/audios/${row.id}.mp3`
+      audio: `https://acessando.app.br/audios/${row.id}.mp3`
     }))
   }
 
