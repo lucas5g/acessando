@@ -15,13 +15,10 @@ const server = serve({
         return Response.json(await phraseService.findAll(queryParams))
       },
       async POST(req) {
-        const body = await req.json();
-        return Response.json({
-          message: "Hello, world!",
-          method: "POST",
-          body,
-        });
-      },
+        const body = await req.json()
+        return Response.json(await phraseService.create(body), { status: 201 })
+      }
+
     },
     '/audios/:id.mp3': async (req) => {
       const id = req.params['id.mp3'].split('.')[0]
