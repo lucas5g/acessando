@@ -8,7 +8,7 @@ git add .
 git commit -m "$message"
 git push
 
-sshpass -p $SERVER_KEY ssh -t root@128.199.12.79 "\
+sshpass -p $SERVER_KEY ssh -t root@acessando.app.br "\
   cd projects/acessando &&\
   source ~/.zshrc &&\
   git pull &&\
