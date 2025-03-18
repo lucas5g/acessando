@@ -7,9 +7,9 @@ export class PhraseService {
     const [portuguese, audio] = await Promise.all([
       translate(english),
       elevenLabs(english)
-
     ])
 
+    await new Promise(resolve => setTimeout(resolve, 2000))
 
     const tagCreated = await prisma.tag.upsert({
       create: {
@@ -35,8 +35,15 @@ export class PhraseService {
       where: {
         english,
       },
-      include: {
-        tags: true
+      select:{
+        id: true,
+        english: true,
+        portuguese: true,
+        tags: {
+          select: {
+            tagId: true
+          }
+        }
       }
     });
 
