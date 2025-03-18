@@ -30,7 +30,7 @@ const server = serve({
       })
     },
 
-    '/version': () => Response.json({ version: '0.0.17' })
+    '/version': () => Response.json({ version: '0.0.18' })
   },
 
   development: process.env.NODE_ENV !== "production",
