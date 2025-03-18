@@ -4,17 +4,20 @@ import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
 import AudioPlayer from "@/components/AudioPlayer";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 
 interface PhraseInterface {
   id: number,
   english: string,
+  portuguese: string
   tag: string
 }
 
 export function Memorize() {
-  const queryClient = useQueryClient();
 
+  const queryClient = useQueryClient()
+  
   const { data, isLoading } = useQuery({
     queryKey: ['phrases'],
     queryFn: () => fetch('/phrases').then(res => res.json()) as Promise<PhraseInterface[]>,
@@ -24,7 +27,6 @@ export function Memorize() {
   const { mutateAsync: createPhraseFn, isPending } = useMutation({
     mutationFn: createPhrase,
     onSuccess: (res) => {
-
       queryClient.setQueryData(['phrases'], (data: PhraseInterface[]) => {
         return [
           res,
@@ -48,13 +50,15 @@ export function Memorize() {
   }
 
   async function handleCreatePhrase(event: React.FormEvent<HTMLFormElement>) {
-
     event.preventDefault()
+    const formData = new FormData(event.currentTarget)
 
-    await createPhraseFn({
-      english: event.currentTarget.english.value,
-      tag: event.currentTarget.tag.value
-    })
+    const english = formData.get('english') as string
+    const tag = formData.get('tag') as string
+
+    createPhraseFn({ english, tag })
+
+    event.currentTarget.reset()
   }
 
 
@@ -72,7 +76,7 @@ export function Memorize() {
         >
           <Input name="english" placeholder="English" />
           <Input name="tag" placeholder="Tag" />
-          <Button 
+          <Button
             disabled={isPending}
             type="submit">
             Save
@@ -80,7 +84,6 @@ export function Memorize() {
 
         </form>
       </Card>
-
 
       <Card>
         <h2>List</h2>
@@ -100,7 +103,7 @@ export function Memorize() {
             </tr>
           </thead>
           <tbody>
-            {data?.map((phrase: any) => (
+            {data?.map(phrase => (
               <tr
                 key={phrase.id}
                 className="border-b last:border-0 hover:bg-gray-800 transition "

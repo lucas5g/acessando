@@ -1,8 +1,8 @@
 import { Home } from "@/pages/home";
-import { Memorize } from "@/pages/memorize";
 import { BrowserRouter, Route, Routes } from "react-router";
 import '@/index.css'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Memorize } from "./pages/memorize";
 
 const queryClient = new QueryClient()
 export function App() {

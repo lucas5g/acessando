@@ -6,7 +6,7 @@
   "main": "src/index.tsx",
   "module": "src/index.tsx",
   "scripts": {
-    "dev": "bun src/index.tsx",
+    "dev": "bun --hot src/index.tsx",
     "dev-old": "bun --hot src/index.tsx",
     "start": "NODE_ENV=production bun src/index.tsx",
     "build": "bun run build.ts"
@@ -21,7 +21,6 @@
     "react": "^19",
     "react-dom": "^19",
     "react-router": "^7.3.0",
-    "swr": "^2.3.3",
     "tailwindcss": "^4.0.6",
     "translate": "^3.0.1",
     "zod": "^3.24.2"

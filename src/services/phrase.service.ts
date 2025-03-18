@@ -1,4 +1,5 @@
 import { elevenLabs } from "@/utils/eleven-labs";
+import { env } from "@/utils/env";
 import { prisma } from "@/utils/prisma";
 import { translate } from "@/utils/translate";
 import { Prisma } from "@prisma/client";
@@ -8,8 +9,6 @@ export class PhraseService {
       translate(english),
       elevenLabs(english)
     ])
-
-    await new Promise(resolve => setTimeout(resolve, 2000))
 
     const tagCreated = await prisma.tag.upsert({
       create: {
@@ -35,7 +34,7 @@ export class PhraseService {
       where: {
         english,
       },
-      select:{
+      select: {
         id: true,
         english: true,
         portuguese: true,
@@ -59,7 +58,6 @@ export class PhraseService {
     return phrase;
 
   }
-
   async findAll({ tag, ...query }: any) {
     const res = await prisma.phrase.findMany({
       where: {
@@ -77,11 +75,16 @@ export class PhraseService {
         english: true,
         portuguese: true
       },
+      orderBy: {
+        english: 'asc'
+      },
       take: 50
     })
     return res.map(row => ({
       ...row,
-      audio: `https://acessando.app.br/audios/${row.id}.mp3`
+      audio: env.NODE_ENV === 'production' 
+        ? `https://acessando.app.br/audios/${row.id}.mp3`
+        : `http://localhost:3000/audios/${row.id}.mp3`
     }))
   }
 
