@@ -5,18 +5,18 @@ import { Button } from "./Button";
 
 interface Props{
   fields: object
+  uri: string
+  search: string
 }
 
-export function Form(props: Props){
+export function Form({ uri, search }: Readonly<Props>){
 
   const queryClient = useQueryClient()
 
   const { mutateAsync: createPhraseFn, isPending } = useMutation({
     mutationFn: createPhrase,
     onSuccess: (res) => {
-      // queryClient.setQueryData(['phrases'], (data: PhraseInterface[]) => {
-      queryClient.setQueryData(['phrases'], (data: any) => {
-
+      queryClient.setQueryData([uri, search ], (data: any[]) => {
         return [
           res,
           ...data,
@@ -27,7 +27,7 @@ export function Form(props: Props){
 
   async function createPhrase({ english, tag }: { english: string, tag: string }) {
 
-    const res = await fetch('/phrases', {
+    const res = await fetch(uri, {
       method: 'POST',
       body: JSON.stringify({
         english,

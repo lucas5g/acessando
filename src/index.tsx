@@ -17,6 +17,9 @@ const server = serve({
       async POST(req) {
         const body = await req.json()
         return Response.json(await phraseService.create(body), { status: 201 })
+      },
+      async DELETE(req) {
+        return Response.json(await phraseService.reset())
       }
 
     },

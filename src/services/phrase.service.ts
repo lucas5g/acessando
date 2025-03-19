@@ -95,4 +95,11 @@ export class PhraseService {
     })
   }
 
+  async reset(){
+
+    await prisma.phraseTag.deleteMany()
+    await prisma.tag.deleteMany()
+    return prisma.phrase.deleteMany()
+  }
+
 }

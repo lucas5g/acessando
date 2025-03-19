@@ -3,26 +3,25 @@ import AudioPlayer from "./AudioPlayer";
 import { Button } from "./Button";
 import { Card } from "./Card";
 import { Input } from "./Input";
-import { useState } from "react";
 
 interface Props {
   uri: string
   fields: object
+  search: string 
+  setSearch: (search: string) => void
 }
 
-export function Table({ uri }: Readonly<Props>) {
+export function Table({ uri, search, setSearch  }: Readonly<Props>) {
 
-  const [searchTag, setSearchTag] = useState(uri);
 
   const { data, isLoading, isFetched } = useQuery({
-    queryKey: [uri, searchTag],
-    queryFn: () => fetch(searchTag).then(res => res.json()),
+    queryKey: [uri, search],
+    queryFn: () => fetch(search).then(res => res.json()),
     placeholderData: keepPreviousData
   })
 
 
   if (isLoading) return <p>Loading...</p>
-
   return (
 
     <Card>
@@ -33,55 +32,62 @@ export function Table({ uri }: Readonly<Props>) {
           const tag = event.currentTarget.searchTag.value
 
           if (!tag) {
-            setSearchTag('/phrases')
+            setSearch('/phrases')
             return
           }
 
-          setSearchTag(`/phrases?search=${tag}`)
+          setSearch(`/phrases?search=${tag}`)
         }}
         className="flex gap-2"
       >
-        <Input 
-          name="searchTag" 
+        <Input
+          name="searchTag"
           placeholder="Search by Tag"
-          showLabel={false} 
+          showLabel={false}
           required={false}
-          
-          />
-        <Button 
+
+        />
+        <Button
           type="submit"
           disabled={!isFetched}
-          >
-            Search
-          </Button>
+        >
+          Search
+        </Button>
       </form>
 
-      <table className="w-full">
-        <thead>
-          <tr className="text-left ">
-            <th>English/Portuguese</th>
-            <th>Audio</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((phrase:any) => (
-            <tr
-              key={phrase.id}
-              className="border-b last:border-0 hover:bg-gray-800 transition "
-            >
-              <td className="py-4 pl-2">
-                {phrase.english} <br />
-                <i>
-                  {phrase.portuguese}
-                </i>
-              </td>
-              <td>
-                <AudioPlayer phraseId={phrase.id} />
-              </td>
+      {data?.length === 0 &&
+        <h2 className="text-2xl text-center my-10">Nada encontrado :(</h2>
+      }
+
+      {data.length > 0 &&
+
+        <table className="w-full">
+          <thead>
+            <tr className="text-left ">
+              <th>English/Portuguese</th>
+              <th>Audio</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data?.map((phrase: any) => (
+              <tr
+                key={phrase.id}
+                className="border-b last:border-0 hover:bg-gray-800 transition "
+              >
+                <td className="py-4 pl-2">
+                  {phrase.english} <br />
+                  <i>
+                    {phrase.portuguese}
+                  </i>
+                </td>
+                <td>
+                  <AudioPlayer phraseId={phrase.id} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      }
     </Card >
   )
 }
