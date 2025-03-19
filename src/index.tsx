@@ -11,8 +11,8 @@ const server = serve({
     '/phrases': {
       async GET(req) {
         const url = new URL(req.url)
-        const queryParams = Object.fromEntries(url.searchParams.entries())
-        return Response.json(await phraseService.findAll(queryParams))
+        const search = url.searchParams.get('search')
+        return Response.json(await phraseService.findAll(search ?? undefined))
       },
       async POST(req) {
         const body = await req.json()

@@ -5,10 +5,23 @@ import { Form } from "@/components/Form";
 
 
 export function Memorize() {
+
+  const uri = '/phrases'
+
+  const fields = {
+    english: 'English',
+    portuguese: 'Portuguese',
+  }
+
   return (
     <Layout>
-      <Form />
-      <Table />
+      <Form
+        fields={fields}
+      />
+      <Table
+        uri={uri}
+        fields={fields}
+      />
     </Layout>
   )
 }

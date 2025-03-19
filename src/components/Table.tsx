@@ -5,12 +5,17 @@ import { Card } from "./Card";
 import { Input } from "./Input";
 import { useState } from "react";
 
-export function Table() {
+interface Props {
+  uri: string
+  fields: object
+}
 
-  const [searchTag, setSearchTag] = useState('/phrases');
+export function Table({ uri }: Readonly<Props>) {
+
+  const [searchTag, setSearchTag] = useState(uri);
 
   const { data, isLoading, isFetched } = useQuery({
-    queryKey: ['phrases', searchTag],
+    queryKey: [uri, searchTag],
     queryFn: () => fetch(searchTag).then(res => res.json()),
     placeholderData: keepPreviousData
   })
@@ -25,11 +30,24 @@ export function Table() {
       <form
         onSubmit={(event) => {
           event.preventDefault()
-          setSearchTag(`/phrases?tag=${event.currentTarget.searchTag.value}`)
+          const tag = event.currentTarget.searchTag.value
+
+          if (!tag) {
+            setSearchTag('/phrases')
+            return
+          }
+
+          setSearchTag(`/phrases?search=${tag}`)
         }}
         className="flex gap-2"
       >
-        <Input name="searchTag" placeholder="Search by Tag" showLabel={false} />
+        <Input 
+          name="searchTag" 
+          placeholder="Search by Tag"
+          showLabel={false} 
+          required={false}
+          
+          />
         <Button 
           type="submit"
           disabled={!isFetched}

@@ -58,17 +58,16 @@ export class PhraseService {
     return phrase;
 
   }
-  async findAll({ tag, ...query }: any) {
+  async findAll(search?: string) {
     const res = await prisma.phrase.findMany({
       where: {
         tags: {
           some: {
             Tag: {
-              name: tag
+              name: search
             }
           }
         },
-        ...query,
       },
       select: {
         id: true,

@@ -3,7 +3,11 @@ import { Card } from "./Card";
 import { Input } from "./Input";
 import { Button } from "./Button";
 
-export function Form(){
+interface Props{
+  fields: object
+}
+
+export function Form(props: Props){
 
   const queryClient = useQueryClient()
 
