@@ -76,7 +76,7 @@ export class PhraseService {
         portuguese: true
       },
       orderBy: {
-        english: 'asc'
+        english: 'asc',
       },
       take: 50
     })
