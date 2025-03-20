@@ -82,6 +82,14 @@ export function Table() {
                       )
                     }
 
+                    if (key === 'englishPortuguese') {
+                      return (
+                        <td key={key} className="py-1">
+                          <p dangerouslySetInnerHTML={{ __html: row[key] }} />
+                        </td>
+                      )
+                    }
+
                     return (
 
                       <td

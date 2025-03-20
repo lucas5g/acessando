@@ -80,7 +80,8 @@ export class PhraseService {
       take: 50
     })
     return res.map(row => ({
-      ...row,
+      id: row.id,
+      englishPortuguese: `${row.english} <br/> ${row.portuguese}`,
       audio: env.NODE_ENV === 'production' 
         ? `https://acessando.app.br/audios/${row.id}.mp3`
         : `http://localhost:3000/audios/${row.id}.mp3`

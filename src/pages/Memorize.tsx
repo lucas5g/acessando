@@ -14,8 +14,7 @@ export function Memorize() {
   }
 
   const fieldsTable = {
-    english: 'English',
-    portuguese: 'Portuguese',
+    englishPortuguese: 'English/Portuguese',
     audio: 'Audio',
   }
 
