@@ -3,16 +3,11 @@ import AudioPlayer from "./AudioPlayer";
 import { Button } from "./Button";
 import { Card } from "./Card";
 import { Input } from "./Input";
+import { useAppContext } from "@/providers/AppProvider";
 
-interface Props {
-  uri: string
-  fields: object
-  search: string 
-  setSearch: (search: string) => void
-}
+export function Table() {
 
-export function Table({ uri, search, setSearch  }: Readonly<Props>) {
-
+  const { uri, search, setSearch } = useAppContext()
 
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [uri, search],

@@ -5,6 +5,7 @@ export function Navbar() {
   const links = {
     '/': 'Home',
     '/memorize': 'Memorize',
+    '/pontos': 'Pontos',
   }
 
   return (

@@ -2,14 +2,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card } from "./Card";
 import { Input } from "./Input";
 import { Button } from "./Button";
+import { useAppContext } from "@/providers/AppProvider";
 
-interface Props{
-  fields: object
-  uri: string
-  search: string
-}
 
-export function Form({ uri, search }: Readonly<Props>){
+export function Form(){
+
+  const { uri, search, fields} = useAppContext()
 
   const queryClient = useQueryClient()
 
@@ -59,8 +57,14 @@ export function Form({ uri, search }: Readonly<Props>){
         onSubmit={handleCreatePhrase}
         className="flex flex-col gap-2"
       >
-        <Input name="english" placeholder="English" />
-        <Input name="tag" placeholder="Tag" />
+        {Object.entries(fields).map(([key, value]) => (
+          <Input
+            key={key}
+            name={key}
+            placeholder={value}
+          />
+        ))}
+
         <Button
           disabled={isPending}
           type="submit">
