@@ -1,8 +1,10 @@
 import { serve } from "bun";
 import index from "./index.html";
 import { PhraseService } from "@/services/phrase.service";
+import { ServerService } from "./services/server.service";
 
 const phraseService = new PhraseService()
+const serverService = new ServerService()
 
 const server = serve({
   routes: {
@@ -32,6 +34,12 @@ const server = serve({
         }
       })
     },
+    '/servers': {
+      async GET() {
+        return Response.json( await serverService.findAll())
+      } 
+    },
+
 
     '/version': () => Response.json({ version: '0.0.18' })
   },

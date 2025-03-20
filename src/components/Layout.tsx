@@ -5,9 +5,10 @@ import { useState } from "react";
 interface Props {
   uri: string;
   fields: Record<string, string>;
+  fieldsTable?: Record<string, string>;
   children: React.ReactNode
 }
-export function Layout({ children, uri, fields }: Readonly<Props>) {
+export function Layout({ children, uri, fields, fieldsTable }: Readonly<Props>) {
   const [search, setSearch] = useState(uri);
   return (
     <>
@@ -16,6 +17,7 @@ export function Layout({ children, uri, fields }: Readonly<Props>) {
         <AppProvider 
           uri={uri}
           fields={fields}
+          fieldsTable={fieldsTable ?? fields}
           search={search}
           setSearch={setSearch}
           >

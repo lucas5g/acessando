@@ -7,7 +7,7 @@ import { useAppContext } from "@/providers/AppProvider";
 
 export function Table() {
 
-  const { uri, search, setSearch } = useAppContext()
+  const { uri, search, setSearch, fieldsTable } = useAppContext()
 
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [uri, search],
@@ -59,27 +59,44 @@ export function Table() {
         <table className="w-full">
           <thead>
             <tr className="text-left ">
-              <th>English/Portuguese</th>
-              <th>Audio</th>
+              {Object.values(fieldsTable).map((value) => (
+                <th key={value}>{value}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {data?.map((phrase: any) => (
-              <tr
-                key={phrase.id}
-                className="border-b last:border-0 hover:bg-gray-800 transition "
-              >
-                <td className="py-4 pl-2">
-                  {phrase.english} <br />
-                  <i>
-                    {phrase.portuguese}
-                  </i>
-                </td>
-                <td>
-                  <AudioPlayer phraseId={phrase.id} />
-                </td>
-              </tr>
-            ))}
+            {data?.map((row: any) => {
+
+              return (
+                <tr
+                  key={row.id}
+                  className="border-b last:border-0 hover:bg-gray-800 transition "
+                >
+                  {Object.keys(fieldsTable).map((key, index) => {
+
+                    if (key === 'audio') {
+                      return (
+                        <td key={key} className="py-1">
+                          <AudioPlayer phraseId={row.id} />
+                        </td>
+                      )
+                    }
+
+                    return (
+
+                      <td
+                        key={key}
+                        className={`py-4 ${index === 0 && 'pl-1'} `}
+                      >
+                        {row[key]}
+                      </td>
+                    )
+                  })}
+
+                </tr>
+              )
+            })}
+
           </tbody>
         </table>
       }

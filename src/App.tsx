@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import '@/index.css'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Memorize } from "./pages/Memorize";
-import { Ponto } from "./pages/Ponto";
+import { Server } from "./pages/Server";
 
 const queryClient = new QueryClient()
 export function App() {
@@ -13,7 +13,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/memorize" element={<Memorize />} />
-          <Route path="/pontos" element={<Ponto />} />
+          <Route path="/servidores" element={<Server />} />
           <Route path="*" element={<>Page not found</>} />
         </Routes>
       </BrowserRouter>

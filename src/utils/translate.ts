@@ -5,7 +5,6 @@ export async function translate(text: string) {
   trans.engine = 'google';
   // trans.key = env.DEEPL_API_KEY;
 
-  // console.log(await trans)
 
   if (text === 'test') {
     return 'teste';

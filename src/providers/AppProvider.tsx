@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 interface AppContextProps {
   uri: string;
   fields: Record<string, string>;
+  fieldsTable: Record<string, string>;
   search: string;
   setSearch: (value: string) => void;
 }
@@ -21,7 +22,7 @@ interface AppProviderProps extends AppContextProps {
 }
 
 export function AppProvider(props: Readonly<AppProviderProps>){
-  console.log(props)
+
   return (
     <AppContext.Provider value={props}>
       {props.children}

@@ -33,3 +33,11 @@ model Tag {
   updatedAt DateTime    @default(now())
   phrases   PhraseTag[]
 }
+
+//pontos
+
+model Server {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  masp      String      @unique
+}
