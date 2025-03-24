@@ -2,8 +2,6 @@ import { Layout } from "@/components/Layout";
 
 import { Table } from "@/components/Table";
 import { Form } from "@/components/Form";
-import { m } from "node_modules/react-router/dist/development/fog-of-war-Da8gpnoZ.mjs";
-
 
 export function Memorize() {
 
@@ -19,17 +17,24 @@ export function Memorize() {
     audio: 'Audio',
   }
 
+  const fieldsFilter = {
+    tag: 'Tag',
+    english: 'English',
+    portuguese: 'Portuguese',
+  }
+
   const menus = {
     '/memorize': 'Memorize',
   }
 
   return (
-    <Layout 
-      fields={fields} 
+    <Layout
+      fields={fields}
       fieldsTable={fieldsTable}
+      fieldsFilter={fieldsFilter}
       uri={uri}
       menus={menus}
-      >
+    >
       <Form />
       <Table />
     </Layout>

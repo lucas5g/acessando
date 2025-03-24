@@ -4,6 +4,7 @@ interface AppContextProps {
   uri: string;
   fields: Record<string, string>;
   fieldsTable: Record<string, string>;
+  fieldsFilter: Record<string, string>;
   search: string;
   setSearch: (value: string) => void;
 }
@@ -21,7 +22,7 @@ interface AppProviderProps extends AppContextProps {
   children: React.ReactNode;
 }
 
-export function AppProvider(props: Readonly<AppProviderProps>){
+export function AppProvider(props: Readonly<AppProviderProps>) {
 
   return (
     <AppContext.Provider value={props}>

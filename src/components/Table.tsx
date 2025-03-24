@@ -4,10 +4,11 @@ import { Button } from "./Button";
 import { Card } from "./Card";
 import { Input } from "./Input";
 import { useAppContext } from "@/providers/AppProvider";
+import { Accent } from "elevenlabs/api";
 
 export function Table() {
 
-  const { uri, search, setSearch, fieldsTable } = useAppContext()
+  const { uri, search, setSearch, fieldsTable, fieldsFilter } = useAppContext()
 
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [uri, search],
@@ -24,24 +25,41 @@ export function Table() {
       <form
         onSubmit={(event) => {
           event.preventDefault()
-          const tag = event.currentTarget.searchTag.value
 
-          if (!tag) {
-            setSearch('/phrases')
-            return
-          }
+          const formData = new FormData(event.currentTarget)
 
-          setSearch(`/phrases?search=${tag}`)
+          const data = Object.fromEntries(formData)
+
+          const params = new URLSearchParams(data).toString()
+          console.log({ data, params })
+
+          // if (!tag) {
+          //   setSearch('/phrases')
+          //   return
+          // }
+
+          // setSearch(`/phrases?`)
         }}
-        className="flex gap-2"
+        className="flex flex-col gap-2"
       >
-        <Input
+        <div className="flex gap-2 overflow-clip">
+
+          {Object.entries(fieldsFilter).map(([key, value]) => (
+            <Input
+              key={key}
+              name={key}
+              placeholder={value}
+              required={false}
+            />
+          ))}
+        </div>
+        {/* <Input
           name="searchTag"
           placeholder="Search by Tag"
           showLabel={false}
           required={false}
 
-        />
+        /> */}
         <Button
           type="submit"
           disabled={!isFetched}
