@@ -5,16 +5,27 @@ import { Button } from "./Button";
 import { useAppContext } from "@/providers/AppProvider";
 
 
-export function Form(){
+export function Form() {
 
-  const { uri, search, fields} = useAppContext()
+  const { uri, search, fields } = useAppContext()
 
   const queryClient = useQueryClient()
 
   const { mutateAsync: createPhraseFn, isPending } = useMutation({
     mutationFn: createPhrase,
     onSuccess: (res) => {
-      queryClient.setQueryData([uri, search ], (data: any[]) => {
+      queryClient.setQueryData([uri, search], (data: any[]) => {
+
+        if(uri === 'phrases') {
+          return  [
+            {
+              englishPortuguese: `${res.english} <br/> ${res.portuguese}`,
+              id: res.id
+            },
+            ...data
+          ]
+        }
+
         return [
           res,
           ...data,
@@ -33,7 +44,7 @@ export function Form(){
       })
     })
 
-    return res.json() 
+    return res.json()
     // as Promise<PhraseInterface>
   }
 

@@ -6,13 +6,14 @@ interface Props {
   uri: string;
   fields: Record<string, string>;
   fieldsTable?: Record<string, string>;
-  children: React.ReactNode
+  children: React.ReactNode,
+  menus: Record<string, string>
 }
-export function Layout({ children, uri, fields, fieldsTable }: Readonly<Props>) {
+export function Layout({ children, uri, fields, fieldsTable,menus }: Readonly<Props>) {
   const [search, setSearch] = useState(uri);
   return (
     <>
-      <Navbar />
+      <Navbar menus={menus} />
       <main className="p-5 flex flex-col gap-5">
         <AppProvider 
           uri={uri}

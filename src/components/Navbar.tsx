@@ -1,17 +1,14 @@
 import { Link } from "react-router"
 
-export function Navbar() {
-
-  const links = {
-    '/': 'Home',
-    '/memorize': 'Memorize',
-    '/servidores': 'Servidores',
-  }
+interface Props {
+  menus: Record<string, string>
+}
+export function Navbar({ menus }: Readonly<Props>) {
 
   return (
     <nav >
       <ul className="flex bg-gray-700">
-        {Object.entries(links).map(([key, value]) => (
+        {Object.entries(menus).map(([key, value]) => (
           <Link
             key={key}
             to={key}>
