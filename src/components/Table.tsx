@@ -4,7 +4,7 @@ import { Button } from "./Button";
 import { Card } from "./Card";
 import { Input } from "./Input";
 import { useAppContext } from "@/providers/AppProvider";
-import { Accent } from "elevenlabs/api";
+
 
 export function Table() {
 
@@ -28,17 +28,13 @@ export function Table() {
 
           const formData = new FormData(event.currentTarget)
 
-          const data = Object.fromEntries(formData)
-
+          const data = Object.fromEntries(formData) as Record<string, string>
+          
           const params = new URLSearchParams(data).toString()
           console.log({ data, params })
 
-          // if (!tag) {
-          //   setSearch('/phrases')
-          //   return
-          // }
 
-          // setSearch(`/phrases?`)
+          setSearch(`/${uri}?${params}`)
         }}
         className="flex flex-col gap-2"
       >

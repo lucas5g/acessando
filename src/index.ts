@@ -13,8 +13,10 @@ const server = serve({
     '/phrases': {
       async GET(req) {
         const url = new URL(req.url)
-        const search = url.searchParams.get('search')
-        return Response.json(await phraseService.findAll(search ?? undefined))
+
+        const query = Object.fromEntries(url.searchParams)
+
+        return Response.json(await phraseService.findAll(query))
       },
       async POST(req) {
         const body = await req.json()
