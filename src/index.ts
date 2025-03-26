@@ -1,4 +1,3 @@
-import { serve } from "bun";
 import index from "./index.html";
 import { PhraseService } from "@/services/phrase.service";
 import { ServerService } from "./services/server.service";
@@ -6,7 +5,7 @@ import { ServerService } from "./services/server.service";
 const phraseService = new PhraseService()
 const serverService = new ServerService()
 
-const server = serve({
+const server = Bun.serve({
   routes: {
     // Serve index.html for all unmatched routes.
     "/*": index,
@@ -42,8 +41,10 @@ const server = serve({
       } 
     },
 
-
     '/version': () => Response.json({ version: '0.0.18' })
+  },
+  fetch(request) {
+    return new Response("fallback response");
   },
 
   development: process.env.NODE_ENV !== "production",
