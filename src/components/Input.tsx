@@ -14,7 +14,7 @@ export function Input({ showLabel = true, ...props }: Readonly<InputProps>) {
       }
       <input
         id={props.name}
-        className='bg-gray-800 h-12 rounded p-3 border border-gray-500  focus:outline-none focus:border hover:border '
+        className='bg-gray-800 h-12 rounded p-3 border border-gray-500  focus:outline-none focus:border hover:border disabled:cursor-not-allowed disabled:text-gray-500'
         required={true}
         {...props}
       />

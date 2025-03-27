@@ -4,11 +4,17 @@ import { Button } from "./Button";
 import { Card } from "./Card";
 import { Input } from "./Input";
 import { useAppContext } from "@/providers/AppProvider";
+import { useSearchParams } from "react-router";
+import { useEffect, useRef } from "react";
 
 
 export function Table() {
 
   const { uri, search, setSearch, fieldsTable, fieldsFilter } = useAppContext()
+  const [searchParams, setSearchParams] = useSearchParams();
+  const formRef = useRef<HTMLFormElement>(null);
+
+
 
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [uri, search],
@@ -16,6 +22,27 @@ export function Table() {
     placeholderData: keepPreviousData
   })
 
+  useEffect(() => {
+    const data = Object.keys(fieldsFilter).reduce((acc: Record<string, string>, key) => {
+    
+      if(searchParams.has(key)) {
+        acc[key] = searchParams.get(key) ?? ''
+      }
+      return acc
+    }, {}) 
+
+    if(Object.keys(data).length === 0){
+      formRef.current?.reset()
+      setSearch(uri)
+      return
+    }
+    
+    const params = new URLSearchParams(data)
+
+ 
+    setSearch(`/${uri}?${params}`)
+      
+  }, [searchParams])
 
   if (isLoading) return <p>Loading...</p>
   return (
@@ -23,6 +50,7 @@ export function Table() {
     <Card>
       <h2>List</h2>
       <form
+        ref={formRef}
         onSubmit={(event) => {
           event.preventDefault()
 
@@ -35,9 +63,12 @@ export function Table() {
             }
           }
 
+          setSearchParams(data);
+
           const params = new URLSearchParams(data).toString()
 
           setSearch(`/${uri}?${params}`)
+
         }}
         className="flex flex-col gap-2"
       >
@@ -49,6 +80,7 @@ export function Table() {
               name={key}
               placeholder={value}
               required={false}
+              // defaultValue={searchParams.get(key) ?? ''}
             />
           ))}
         </div>

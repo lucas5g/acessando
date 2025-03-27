@@ -3,11 +3,14 @@ import { Card } from "./Card";
 import { Input } from "./Input";
 import { Button } from "./Button";
 import { useAppContext } from "@/providers/AppProvider";
+import { useRef } from "react";
 
 
 export function Form() {
 
   const { uri, search, fields } = useAppContext()
+  const formRef = useRef<HTMLFormElement>(null);
+  
 
   const queryClient = useQueryClient()
 
@@ -36,6 +39,7 @@ export function Form() {
 
   async function createPhrase({ english, tag }: { english: string, tag: string }) {
 
+
     const res = await fetch(uri, {
       method: 'POST',
       body: JSON.stringify({
@@ -44,6 +48,7 @@ export function Form() {
       })
     })
 
+    formRef.current?.reset()
     return res.json()
     // as Promise<PhraseInterface>
   }
@@ -57,7 +62,6 @@ export function Form() {
 
     createPhraseFn({ english, tag })
 
-    event.currentTarget.reset()
   }
 
   return (
@@ -65,6 +69,7 @@ export function Form() {
     <Card >
       <h2>Create</h2>
       <form
+        ref={formRef}
         onSubmit={handleCreatePhrase}
         className="flex flex-col gap-2"
       >
@@ -73,6 +78,7 @@ export function Form() {
             key={key}
             name={key}
             placeholder={value}
+            disabled={isPending}
           />
         ))}
 
