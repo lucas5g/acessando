@@ -28,11 +28,14 @@ export function Table() {
 
           const formData = new FormData(event.currentTarget)
 
-          const data = Object.fromEntries(formData) as Record<string, string>
-          
-          const params = new URLSearchParams(data).toString()
-          console.log({ data, params })
+          const data: Record<string, string> = {};
+          for (const [key, value] of formData.entries()) {
+            if (value && typeof value === 'string') {
+              data[key] = value
+            }
+          }
 
+          const params = new URLSearchParams(data).toString()
 
           setSearch(`/${uri}?${params}`)
         }}
@@ -49,13 +52,7 @@ export function Table() {
             />
           ))}
         </div>
-        {/* <Input
-          name="searchTag"
-          placeholder="Search by Tag"
-          showLabel={false}
-          required={false}
 
-        /> */}
         <Button
           type="submit"
           disabled={!isFetched}

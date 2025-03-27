@@ -1,7 +1,5 @@
 import { Link } from "react-router";
-import { Layout } from "../components/Layout";
-import { Card } from "@/components/Card";
-import { main } from "bun";
+
 import { LinkSimple } from "@phosphor-icons/react";
 
 export function Home() {
@@ -13,7 +11,7 @@ export function Home() {
 
   return (
     <main className="h-screen flex flex-col justify-center items-center gap-5">
-      <h1 className="text-3xl">Lista dos Projetos</h1>
+      <h1 className="text-3xl bg-gray-500 p-3 rounded">Lista dos Projetos</h1>
       <ol>
         {Object.entries(apps).map(([key, value]) => (
           <Link
@@ -30,8 +28,5 @@ export function Home() {
 
       </ol>
     </main>
-    //  <Layout>
-    //    <h1>Home</h1>
-    //  </Layout>
   )
 }

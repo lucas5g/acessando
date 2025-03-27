@@ -1,3 +1,4 @@
+import { FindPhraseType } from "@/dtos/phrase.dto";
 import { elevenLabs } from "@/utils/eleven-labs";
 import { env } from "@/utils/env";
 import { prisma } from "@/utils/prisma";
@@ -58,7 +59,8 @@ export class PhraseService {
     return phrase;
 
   }
-  async findAll({ tag, english, portuguese }: any) {
+  async findAll({  english, portuguese, tag}: FindPhraseType) {
+    
     const res = await prisma.phrase.findMany({
       where: {
         tags: {
@@ -68,8 +70,12 @@ export class PhraseService {
             }
           }
         },
-        english,
-        portuguese
+        english: {
+          contains: english
+        },
+        portuguese: {
+          contains: portuguese
+        }
       },
       select: {
         id: true,

@@ -1,6 +1,7 @@
 import index from "./index.html";
 import { PhraseService } from "@/services/phrase.service";
 import { ServerService } from "./services/server.service";
+import { findPhraseSchema } from "./dtos/phrase.dto";
 
 const phraseService = new PhraseService()
 const serverService = new ServerService()
@@ -13,8 +14,8 @@ const server = Bun.serve({
       async GET(req) {
         const url = new URL(req.url)
 
-        const query = Object.fromEntries(url.searchParams)
-
+        const queryObject = Object.fromEntries(url.searchParams)
+        const query = findPhraseSchema.parse(queryObject)
         return Response.json(await phraseService.findAll(query))
       },
       async POST(req) {
