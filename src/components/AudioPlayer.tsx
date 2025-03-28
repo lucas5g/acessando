@@ -1,13 +1,12 @@
 
-import { Button } from '@/components/Button';
-import { Pause, Play } from '@phosphor-icons/react';
+import { ArrowFatLeft, ArrowFatRight, Minus, Pause, Play, Plus } from '@phosphor-icons/react';
 import { useEffect, useRef, useState } from 'react';
 
 interface AudioPlayerProps {
   phraseId: number;
 }
 
-export default function AudioPlayer({
+export function AudioPlayer({
   phraseId,
 }: Readonly<AudioPlayerProps>) {
 
@@ -37,12 +36,22 @@ export default function AudioPlayer({
         className='hidden'
         onEnded={() => setIsPlaying(false)}
       ></audio>
-      <button
-        onClick={togglePlayPause}
-        className='bg-gray-950 p-5 rounded-4xl border border-gray-600 hover:border-red-100 hover:cursor-pointer'
-      >
+
+      <Button onClick={togglePlayPause}>
         {isPlaying ? <Pause className='text-red-200' size={20} /> : <Play size={20} />}
-      </button>
+      </Button>
+
     </>
   );
+}
+
+interface Props extends React.HTMLAttributes<HTMLButtonElement> { }
+
+function Button(props: Props) {
+  return (
+    <button
+      className='bg-gray-950 p-3 rounded-4xl border border-gray-600 hover:border-red-100 hover:cursor-pointer'
+      {...props}
+    />
+  )
 }

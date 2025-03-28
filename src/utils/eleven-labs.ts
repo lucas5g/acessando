@@ -14,7 +14,7 @@ export async function elevenLabs(text: string) {
       model_id: 'eleven_multilingual_v2',
       output_format: 'mp3_44100_128',
       voice_settings: {
-        speed: 0.9
+        speed: 0.8
       }
     },
     {

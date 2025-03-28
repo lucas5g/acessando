@@ -1,11 +1,13 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import AudioPlayer from "./AudioPlayer";
 import { Button } from "./Button";
 import { Card } from "./Card";
 import { Input } from "./Input";
 import { useAppContext } from "@/providers/AppProvider";
 import { useSearchParams } from "react-router";
 import { useEffect, useRef } from "react";
+import { AudioPlayer } from "@/components/AudioPlayer";
+import { Minus, Plus } from "@phosphor-icons/react";
+import { SpeedAudio } from "@/components/SpeedAudio";
 
 
 export function Table() {
@@ -24,24 +26,24 @@ export function Table() {
 
   useEffect(() => {
     const data = Object.keys(fieldsFilter).reduce((acc: Record<string, string>, key) => {
-    
-      if(searchParams.has(key)) {
+
+      if (searchParams.has(key)) {
         acc[key] = searchParams.get(key) ?? ''
       }
       return acc
-    }, {}) 
+    }, {})
 
-    if(Object.keys(data).length === 0){
+    if (Object.keys(data).length === 0) {
       formRef.current?.reset()
       setSearch(uri)
       return
     }
-    
+
     const params = new URLSearchParams(data)
 
- 
+
     setSearch(`/${uri}?${params}`)
-      
+
   }, [searchParams])
 
   if (isLoading) return <p>Loading...</p>
@@ -72,7 +74,7 @@ export function Table() {
         }}
         className="flex flex-col gap-2"
       >
-        <div className="flex gap-2 overflow-clip">
+        <div className="grid grid-cols-3 gap-2">
 
           {Object.entries(fieldsFilter).map(([key, value]) => (
             <Input
@@ -80,7 +82,7 @@ export function Table() {
               name={key}
               placeholder={value}
               required={false}
-              // defaultValue={searchParams.get(key) ?? ''}
+            // defaultValue={searchParams.get(key) ?? ''}
             />
           ))}
         </div>
@@ -150,6 +152,11 @@ export function Table() {
 
           </tbody>
         </table>
+      }
+
+
+      {uri === 'phrases' &&
+        <SpeedAudio />
       }
     </Card >
   )
