@@ -4,7 +4,7 @@ interface Props {
   menus: Record<string, string>
 }
 export function Navbar({ menus }: Readonly<Props>) {
-
+  console.log({ menus })
   return (
     <nav >
       <ul className="flex bg-gray-700">

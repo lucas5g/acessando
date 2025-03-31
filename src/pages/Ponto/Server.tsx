@@ -1,8 +1,9 @@
 import { Form } from "@/components/Form"
 import { Layout } from "@/components/Layout"
 import { Table } from "@/components/Table"
+import { pontosMenus } from "@/pages/Ponto/index"
 
-export function Server(){
+export function Server() {
 
   const fields = {
     name: 'Nome',
@@ -10,11 +11,14 @@ export function Server(){
   }
 
   return (
-   
-    <Layout fields={fields} uri={'servers'} >
-      <Form />
-      <Table />
+
+    <Layout
+      menus={pontosMenus}
+    >
+      {/* <Form />
+      <Table /> */}
+      <p>lista de servidores</p>
     </Layout>
-   
+
   )
 }
