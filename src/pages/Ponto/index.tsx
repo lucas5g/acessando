@@ -9,6 +9,12 @@ export const pontosMenus = {
   '/pontos/servidores': 'Servidores',
 }
 
+export const pontosRoutes = [
+  <Route key={'/pontos'} path='/pontos' element={<Ponto />} />,
+  <Route key={'/pontos/servidores'} path='/pontos/servidores' element={<Server />} />
+]
+
+
 
 export function Ponto() {
 

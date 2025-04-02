@@ -2,6 +2,7 @@ import { Form } from "@/components/Form"
 import { Layout } from "@/components/Layout"
 import { Table } from "@/components/Table"
 import { pontosMenus } from "@/pages/Ponto/index"
+import { AppProvider } from "@/providers/AppProvider"
 
 export function Server() {
 
@@ -15,9 +16,13 @@ export function Server() {
     <Layout
       menus={pontosMenus}
     >
-      {/* <Form />
-      <Table /> */}
-      <p>lista de servidores</p>
+      <AppProvider
+        uri={'../servers'}
+        fields={fields}
+        >
+        <Form />
+        <Table />
+      </AppProvider>
     </Layout>
 
   )

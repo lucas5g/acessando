@@ -6,9 +6,8 @@ import { useAppContext } from "@/providers/AppProvider";
 import { useSearchParams } from "react-router";
 import { useEffect, useRef } from "react";
 import { AudioPlayer } from "@/components/AudioPlayer";
-import { Minus, Plus } from "@phosphor-icons/react";
 import { SpeedAudio } from "@/components/SpeedAudio";
-
+import { clsx } from 'clsx';
 
 export function Table() {
 
@@ -18,7 +17,7 @@ export function Table() {
 
 
 
-  const { data, isLoading, isFetched } = useQuery({
+  const { data, isLoading, isFetched, error } = useQuery({
     queryKey: [uri, search],
     queryFn: () => fetch(search).then(res => res.json()),
     placeholderData: keepPreviousData
@@ -47,6 +46,8 @@ export function Table() {
   }, [searchParams])
 
   if (isLoading) return <p>Loading...</p>
+
+  if (error) return <p>Error: {error.message}</p>
   return (
 
     <Card>
@@ -74,7 +75,10 @@ export function Table() {
         }}
         className="flex flex-col gap-2"
       >
-        <div className="grid grid-cols-3 gap-2">
+
+        <div className={clsx('grid gap-3 grid-cols-2', {
+          'grid-cols-3': Object.keys(fieldsFilter).length >= 3,
+        })}>
 
           {Object.entries(fieldsFilter).map(([key, value]) => (
             <Input

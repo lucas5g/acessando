@@ -10,7 +10,7 @@ export function Form() {
 
   const { uri, search, fields } = useAppContext()
   const formRef = useRef<HTMLFormElement>(null);
-  
+  console.log({uri})
 
   const queryClient = useQueryClient()
 

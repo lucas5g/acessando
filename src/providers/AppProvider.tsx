@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 interface AppContextProps {
   uri: string;
@@ -18,14 +18,34 @@ export function useAppContext() {
   }
   return context;
 }
-interface AppProviderProps extends AppContextProps {
+interface AppProviderProps  {
+  uri: string;
+  fields: Record<string, string>;
+  fieldsTable?: Record<string, string>;
+  fieldsFilter?: Record<string, string>;
   children: React.ReactNode;
+
+
 }
 
 export function AppProvider(props: Readonly<AppProviderProps>) {
 
+  const [search, setSearch] = useState(props.uri);
+
+  const value = useMemo(() => ({
+    fields: props.fields,
+    fieldsTable: props.fieldsTable ?? props.fields,
+    fieldsFilter: props.fieldsFilter ?? props.fields,
+    uri: props.uri,
+    search,
+    setSearch
+  }), [props.fields, props.fieldsTable, props.fieldsFilter, props.uri, search]);
+
+    
   return (
-    <AppContext.Provider value={props}>
+    <AppContext.Provider 
+      value={value} 
+      >
       {props.children}
     </AppContext.Provider>
   )
