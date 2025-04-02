@@ -24,6 +24,7 @@ export function Table() {
   })
 
   useEffect(() => {
+
     const data = Object.keys(fieldsFilter).reduce((acc: Record<string, string>, key) => {
 
       if (searchParams.has(key)) {
@@ -86,7 +87,7 @@ export function Table() {
               name={key}
               placeholder={value}
               required={false}
-            // defaultValue={searchParams.get(key) ?? ''}
+              defaultValue={searchParams.get(key) ?? ''}
             />
           ))}
         </div>

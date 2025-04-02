@@ -52,9 +52,9 @@ const server = Bun.serve({
     },
 
 
-    '/version': () => Response.json({ version: '0.0.18' }),
+    '/version': () => Response.json({ version: '0.4.2' }),
   },  
-  fetch(req) {
+  fetch() {
     return new Response("Not Found", { status: 404 });
   },
   development: process.env.NODE_ENV !== "production",
