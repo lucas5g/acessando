@@ -5,7 +5,8 @@ export class ServerService {
     return prisma.server.findMany({
       where:{
         name: {
-          contains: name
+          contains: name,
+          mode: 'insensitive'
         },
         masp
       }
