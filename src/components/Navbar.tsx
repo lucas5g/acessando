@@ -1,21 +1,21 @@
 import { Link } from "react-router"
+import { MenuInterface } from "./GenerateRoutes"
 
 interface Props {
-  menus: Record<string, string>
+  menus:MenuInterface[]
 }
 export function Navbar({ menus }: Readonly<Props>) {
-  console.log({ menus })
   return (
     <nav >
       <ul className="flex bg-gray-700">
-        {Object.entries(menus).map(([key, value]) => (
+        {menus.map(menu => (
           <Link
-            key={key}
-            to={key}>
+            key={menu.path}
+            to={menu.path}>
             <li
               className='w-24 py-4 text-center hover:bg-gray-800'
             >
-              {value}
+              {menu.label}
             </li>
           </Link>
         ))}

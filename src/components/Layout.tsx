@@ -1,33 +1,19 @@
 import { Navbar } from "@/components/Navbar"
-import { AppProvider } from "@/providers/AppProvider";
-import { useState } from "react";
+
+import { MenuInterface } from "./GenerateRoutes";
 
 interface Props {
-  // uri: string;
-  // fields: Record<string, string>;
-  // fieldsTable?: Record<string, string>;
-  // fieldsFilter?: Record<string, string>;
+  
   children: React.ReactNode,
-  menus: Record<string, string>
+  menus: MenuInterface[]
 }
-export function Layout({ menus, children }: Readonly<Props>
-  // children, , fields, fieldsTable, fieldsFilter, menus 
-) {
-  // const [search, setSearch] = useState(uri);
+export function Layout({ menus, children }: Readonly<Props>) {
   return (
     <>
       <Navbar menus={menus} />
       <main className="p-5 flex flex-col gap-5">
-        {/* <AppProvider
-          uri={uri}
-          fields={fields}
-          fieldsTable={fieldsTable ?? fields}
-          fieldsFilter={fieldsFilter ?? fields}
-          search={search}
-          setSearch={setSearch}
-        > */}
+       
         {children}
-        {/* </AppProvider> */}
       </main>
     </>
   )

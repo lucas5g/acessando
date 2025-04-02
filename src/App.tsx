@@ -2,7 +2,8 @@ import { Home } from "@/pages/Home";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Memorize } from "./pages/Memorize";
-import { pontosRoutes } from "@/pages/Ponto";
+import { generateRoutes } from "./components/GenerateRoutes";
+import { pontosMenus } from "./pages/Ponto";
 import '@/index.css'
 
 const queryClient = new QueryClient()
@@ -13,8 +14,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/memorize" element={<Memorize />} />
-          {...pontosRoutes}
-      
+          {generateRoutes(pontosMenus)}
           <Route path="*" element={<>Page not found</>} />
         </Routes>
       </BrowserRouter>
