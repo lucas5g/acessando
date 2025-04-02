@@ -10,12 +10,11 @@ export function Form() {
 
   const { uri, search, fields } = useAppContext()
   const formRef = useRef<HTMLFormElement>(null);
-  console.log({uri})
 
   const queryClient = useQueryClient()
 
-  const { mutateAsync: createPhraseFn, isPending } = useMutation({
-    mutationFn: createPhrase,
+  const { mutateAsync: createFn, isPending } = useMutation({
+    mutationFn: create,
     onSuccess: (res) => {
       queryClient.setQueryData([uri, search], (data: any[]) => {
 
@@ -37,30 +36,27 @@ export function Form() {
     }
   })
 
-  async function createPhrase({ english, tag }: { english: string, tag: string }) {
-
+  async function create(data: any) {
 
     const res = await fetch(uri, {
       method: 'POST',
-      body: JSON.stringify({
-        english,
-        tag
-      })
+      body: JSON.stringify(data)
     })
 
     formRef.current?.reset()
     return res.json()
-    // as Promise<PhraseInterface>
   }
 
-  async function handleCreatePhrase(event: React.FormEvent<HTMLFormElement>) {
+  async function handleCreate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
 
-    const english = formData.get('english') as string
-    const tag = formData.get('tag') as string
+    const data = Object.fromEntries(formData)
 
-    createPhraseFn({ english, tag })
+    createFn(data)
+
+
+    // createPhraseFn({ english, tag })
 
   }
 
@@ -70,7 +66,7 @@ export function Form() {
       <h2>Create</h2>
       <form
         ref={formRef}
-        onSubmit={handleCreatePhrase}
+        onSubmit={handleCreate}
         className="flex flex-col gap-2"
       >
         {Object.entries(fields).map(([key, value]) => (

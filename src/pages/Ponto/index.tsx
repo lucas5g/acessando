@@ -18,7 +18,6 @@ export const pontosMenus:MenuInterface[] = [
 export function Ponto() {
   return (
     <Layout menus={pontosMenus}>
-      {/* <Form />  */}
       <p>gerenciar pontos</p>
     </Layout>
   )

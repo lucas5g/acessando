@@ -2,6 +2,7 @@ import index from "./index.html";
 import { PhraseService } from "@/services/phrase.service";
 import { ServerService } from "./services/server.service";
 import { findPhraseSchema } from "./dtos/phrase.dto";
+import { createServerSchema, findServerSchema } from "./dtos/server.dto";
 
 const phraseService = new PhraseService()
 const serverService = new ServerService()
@@ -37,17 +38,25 @@ const server = Bun.serve({
       })
     },
     '/servers': {
-      async GET() {
-        return Response.json( await serverService.findAll())
-      } 
+      async GET(req) {
+        const url = new URL(req.url)
+        const queryObject = Object.fromEntries(url.searchParams)
+        const query = findServerSchema.parse(queryObject)
+
+        return Response.json( await serverService.findAll(query))
+      },
+      async POST(req) {
+        const body = createServerSchema.parse(await req.json())
+        return Response.json(await serverService.create(body), { status: 201 })
+      }
     },
 
-    '/version': () => Response.json({ version: '0.0.18' })
-  },
-  fetch(request) {
-    return new Response("fallback response");
-  },
 
+    '/version': () => Response.json({ version: '0.0.18' }),
+  },  
+  fetch(req) {
+    return new Response("Not Found", { status: 404 });
+  },
   development: process.env.NODE_ENV !== "production",
 });
 
