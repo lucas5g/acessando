@@ -1,12 +1,18 @@
 import { Link, useLocation } from "react-router"
 import { MenuInterface } from "./GenerateRoutes"
 import clsx from "clsx";
+import { useEffect } from "react";
 
 interface Props {
   menus:MenuInterface[]
 }
 export function Navbar({ menus }: Readonly<Props>) {
   const location = useLocation();
+
+  useEffect(() => {
+    document.title = location.pathname.split('/').slice(1).join(' > ').toUpperCase();
+  }, [location])
+
 
   return (
     <nav >

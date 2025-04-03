@@ -4,6 +4,7 @@ import { Input } from "./Input";
 import { Button } from "./Button";
 import { useAppContext } from "@/providers/AppProvider";
 import { useRef } from "react";
+import { Header } from "./Header";
 
 
 export function Form() {
@@ -55,15 +56,12 @@ export function Form() {
 
     createFn(data)
 
-
-    // createPhraseFn({ english, tag })
-
   }
 
   return (
 
-    <Card >
-      <h2>Create</h2>
+    <Card>
+      <Header title="Create" />
       <form
         ref={formRef}
         onSubmit={handleCreate}

@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { SpeedAudio } from "@/components/SpeedAudio";
 import { clsx } from 'clsx';
+import { Header } from "./Header";
 
 export function Table() {
 
@@ -52,7 +53,7 @@ export function Table() {
   return (
 
     <Card>
-      <h2>List</h2>
+      <Header title="List" />
       <form
         ref={formRef}
         onSubmit={(event) => {
