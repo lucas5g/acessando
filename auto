@@ -12,5 +12,6 @@ sshpass -p $SERVER_KEY ssh -t root@acessando.app.br "\
   cd projects/acessando &&\
   source ~/.zshrc &&\
   git pull &&\
+  npm run build &&\
   pm2 restart acessando --update-env
 "

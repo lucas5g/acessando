@@ -1,19 +1,21 @@
+import { CreateFoodDto } from '@/food/dto/create-food.dto';
+import { UpdateFoodDto } from '@/food/dto/update-food.dto';
+import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { CreateFoodDto } from './dto/create-food.dto';
-import { UpdateFoodDto } from './dto/update-food.dto';
 
 @Injectable()
 export class FoodService {
+  constructor(private readonly prisma: PrismaService) { }
   create(createFoodDto: CreateFoodDto) {
-    return 'This action adds a new food';
+    return this.prisma.food.create({ data: createFoodDto });
   }
 
   findAll() {
-    return `This action returns all food`;
+    return this.prisma.food.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} food`;
+    return this.prisma.food.findUnique({ where: { id } });
   }
 
   update(id: number, updateFoodDto: UpdateFoodDto) {
@@ -21,6 +23,6 @@ export class FoodService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} food`;
+    return this.prisma.food.delete({ where: { id } });
   }
 }
