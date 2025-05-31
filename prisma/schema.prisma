@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Food {
+  id      Int    @id @default(autoincrement())
+  name    String @unique
+  protein Float
+  fat     Float
+  carb    Float
+  kcal    Float
+}
+
+model Phrase {
+  id         Int         @id @default(autoincrement())
+  english    String      @unique
+  portuguese String
+  audio      Bytes
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @default(now())
+  PhraseTag  PhraseTag[]
+}
+
+model PhraseTag {
+  tagId    Int
+  phraseId Int
+  Phrase   Phrase @relation(fields: [phraseId], references: [id])
+  Tag      Tag    @relation(fields: [tagId], references: [id])
+
+  @@id([tagId, phraseId])
+}
+
+model Tag {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now())
+  PhraseTag PhraseTag[]
+}
