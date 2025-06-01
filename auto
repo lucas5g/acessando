@@ -13,5 +13,6 @@ sshpass -p $SERVER_KEY ssh -t root@acessando.app.br "\
   source ~/.zshrc &&\
   git pull &&\
   npm run build &&\
+  npx prisma generate &&\
   pm2 restart acessando --update-env
 "

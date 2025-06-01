@@ -15,7 +15,7 @@ export class FoodService {
   }
 
   findOne(id: number) {
-    return this.prisma.food.findUnique({ where: { id } });
+    return this.prisma.food.findUniqueOrThrow({ where: { id } });
   }
 
   update(id: number, updateFoodDto: UpdateFoodDto) {
