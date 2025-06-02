@@ -13,3 +13,8 @@ tabList, tabCreate = st.tabs(["Listar", "Criar"])
 
 with tabList:
     get_diets()
+
+with tabCreate:
+    st.text_input("Alimento")
+
+    st.number_input("Quantidade (uni/Grs)")

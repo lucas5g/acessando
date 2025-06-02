@@ -11,12 +11,12 @@ export class PrismaExceptionFilter implements ExceptionFilter {
       Food: 'Alimento',
     }
     if (exception.code === 'P2002') {
-      throw new ConflictException(`${model[exception.meta?.modelName as string]} já cadastrado`)
+      throw new ConflictException(`${model[exception.meta?.modelName as string]} já cadastrado.`)
     }
 
     if (exception.code === 'P2025') {
-      throw new NotFoundException(`${model[exception.meta?.modelName as string]} não encontrado`)
+      throw new NotFoundException(`${model[exception.meta?.modelName as string]} não encontrado.`)
     }
-    throw new InternalServerErrorException('Erro no banco');
+    throw new InternalServerErrorException('Erro no banco.');
   }
 }
