@@ -50,7 +50,9 @@ def create_food():
 
 
 def create_diet():
-    with st.form("Dieta"):
+    with st.form(
+        "Dieta",
+    ):
         meals = {
             "Café da manhã": "BREAKFAST",
             "Almoço": "LUNCH",
@@ -63,7 +65,7 @@ def create_diet():
         food = st.selectbox(
             "Alimento", get_foods_api(), format_func=lambda x: x["name"]
         )
-        quantity = st.number_input("Quantidade", value=None)
+        quantity = st.number_input("Quantidade", value=1)
         submitted = st.form_submit_button("SALVAR")
 
         if not submitted:
@@ -84,7 +86,9 @@ def create_diet():
 
 def get_diets():
     res = requests.get(f"{os.getenv('API_URL')}/diets")
-    return st.dataframe(res.json())
+    return st.dataframe(
+        res.json(),
+    )
 
 
 class Type(Enum):

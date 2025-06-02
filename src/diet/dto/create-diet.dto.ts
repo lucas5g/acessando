@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Meal } from "@prisma/client";
-import { IsEnum, IsNumber } from "class-validator";
+import { IsEnum, IsNotEmpty, IsNumber } from "class-validator";
 
 export class CreateDietDto {
   @ApiProperty({
@@ -14,7 +14,7 @@ export class CreateDietDto {
   foodId: number
 
   @ApiProperty()
-  @IsNumber()
+  @IsNumber({}, { message: "Quantidade deve ser um número." })
   quantity: number
 
 

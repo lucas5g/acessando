@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import { CreateDietDto } from '@/diet/dto/create-diet.dto';
 import { UpdateDietDto } from '@/diet/dto/update-diet.dto';
+import { MealEnum } from '@/diet/diet.enum';
 
 @Injectable()
 export class DietService {
@@ -26,8 +27,12 @@ export class DietService {
             fat: true,
             carb: true
           }
-        }
+        },
 
+
+      },
+      orderBy: {
+        meal: 'asc'
       }
     });
 
@@ -36,13 +41,13 @@ export class DietService {
     return dieats.map((diet) => {
       return {
         id: diet.id,
-        meal: diet.meal,
-        quantity: diet.quantity,
-        food: diet.food?.name,
+        Refeição: MealEnum[diet.meal],
+        Quantidade: diet.quantity,
+        Alimento: diet.food?.name,
+        Gordura: multiply(diet.quantity, diet.food!.fat),
+        Carboitrato: multiply(diet.quantity, diet.food!.carb),
+        Proteína: multiply(diet.quantity, diet.food!.protein),
         kcal: multiply(diet.quantity, diet.food!.kcal),
-        protein: multiply(diet.quantity, diet.food!.protein),
-        fat: multiply(diet.quantity, diet.food!.fat),
-        carb: multiply(diet.quantity, diet.food!.carb)
       }
     })
   }
