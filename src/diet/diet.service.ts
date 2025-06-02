@@ -1,15 +1,50 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDietDto } from './dto/create-diet.dto';
-import { UpdateDietDto } from './dto/update-diet.dto';
+import { PrismaService } from '@/prisma/prisma.service';
+import { CreateDietDto } from '@/diet/dto/create-diet.dto';
+import { UpdateDietDto } from '@/diet/dto/update-diet.dto';
 
 @Injectable()
 export class DietService {
+  constructor(private readonly prisma: PrismaService) { }
   create(createDietDto: CreateDietDto) {
-    return 'This action adds a new diet';
+    return this.prisma.diet.create({
+      data: createDietDto
+    });
   }
 
-  findAll() {
-    return `This action returns all diet`;
+  async findAll() {
+    const dieats = await this.prisma.diet.findMany({
+      select: {
+        id: true,
+        meal: true,
+        quantity: true,
+        food: {
+          select: {
+            name: true,
+            kcal: true,
+            protein: true,
+            fat: true,
+            carb: true
+          }
+        }
+
+      }
+    });
+
+    const multiply = (quantity: number, macro: number) => quantity * macro
+
+    return dieats.map((diet) => {
+      return {
+        id: diet.id,
+        meal: diet.meal,
+        quantity: diet.quantity,
+        food: diet.food?.name,
+        kcal: multiply(diet.quantity, diet.food!.kcal),
+        protein: multiply(diet.quantity, diet.food!.protein),
+        fat: multiply(diet.quantity, diet.food!.fat),
+        carb: multiply(diet.quantity, diet.food!.carb)
+      }
+    })
   }
 
   findOne(id: number) {

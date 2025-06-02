@@ -16,4 +16,22 @@ model Food {
   carb    Float
   kcal    Float
   fiber   Float
+
+  diets Diet[]
+}
+
+enum Meal {
+  BREAKFAST
+  LUNCH
+  SNACK
+  DINNER
+}
+
+model Diet {
+  id       Int  @id @default(autoincrement())
+  meal     Meal
+  quantity Int
+  foodId   Int
+
+  food Food? @relation(fields: [foodId], references: [id])
 }

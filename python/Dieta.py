@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import get_diets
+from utils import get_diets, create_diet
 
 st.set_page_config(
     layout="wide",
@@ -15,6 +15,4 @@ with tabList:
     get_diets()
 
 with tabCreate:
-    st.text_input("Alimento")
-
-    st.number_input("Quantidade (uni/Grs)")
+    create_diet()

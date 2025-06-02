@@ -3,9 +3,9 @@ import { DietService } from './diet.service';
 import { CreateDietDto } from './dto/create-diet.dto';
 import { UpdateDietDto } from './dto/update-diet.dto';
 
-@Controller('diet')
+@Controller('diets')
 export class DietController {
-  constructor(private readonly dietService: DietService) {}
+  constructor(private readonly dietService: DietService) { }
 
   @Post()
   create(@Body() createDietDto: CreateDietDto) {

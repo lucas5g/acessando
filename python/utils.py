@@ -8,9 +8,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def get_foods():
+def get_foods_api():
     res = requests.get(f"{os.getenv('API_URL')}/foods")
-    return st.dataframe(res.json())
+    return res.json()
+
+
+def get_foods():
+    res = get_foods_api()
+    return st.dataframe(res)
 
 
 def create_food():
@@ -21,7 +26,10 @@ def create_food():
         fat = st.number_input("Gordura")
         carb = st.number_input("Carboidrato")
         fiber = st.number_input("Fibra")
-        st.form_submit_button("SALVAR")
+        submitted = st.form_submit_button("SALVAR")
+
+        if not submitted:
+            return
 
         res = requests.post(
             f"{os.getenv('API_URL')}/foods",
@@ -43,23 +51,35 @@ def create_food():
 
 def create_diet():
     with st.form("Dieta"):
-        name = st.text_input("Nome")
-        st.form_submit_button("SALVAR")
+        meals = {
+            "Café da manhã": "BREAKFAST",
+            "Almoço": "LUNCH",
+            "Lanche": "SNACK",
+            "Jantar": "DINNER",
+        }
+
+        meal = st.selectbox("Refeição", meals.keys())
+
+        food = st.selectbox(
+            "Alimento", get_foods_api(), format_func=lambda x: x["name"]
+        )
+        quantity = st.number_input("Quantidade", value=None)
+        submitted = st.form_submit_button("SALVAR")
+
+        if not submitted:
+            return
+
+        payload = {"foodId": food["id"], "quantity": quantity, "meal": meals[meal]}
 
         res = requests.post(
             f"{os.getenv('API_URL')}/diets",
-            json={
-                "name": name,
-            },
+            json=payload,
         )
 
         if res.status_code == 201:
-            return st.success("Dieta criada com sucesso!")
+            return alert("Dieta criada com sucesso!", Type.SUCCESS)
 
-        if res.status_code == 409 or res.status_code == 400:
-            return st.warning(res.json()["message"])
-
-        return st.error("Ocorreu um erro ao criar a dieta.")
+        return alert(res.json()["message"], Type.WARNING)
 
 
 def get_diets():
@@ -86,5 +106,5 @@ def alert(message: str, type: Type):
     if type == Type.ERROR:
         display = st.error(message)
 
-    time.sleep(3)
+    time.sleep(5)
     display.empty()
