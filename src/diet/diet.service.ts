@@ -51,21 +51,7 @@ export class DietService {
       return acc;
     }, {})
     return dieatsGroupMeal
-    // return dieats;
 
-
-    return dieats.map((diet) => {
-      return {
-        id: diet.id,
-        meal: MealEnum[diet.meal],
-        food: diet.food?.name,
-        quantity: diet.quantity,
-        fat: multiply(diet.quantity, diet.food!.fat),
-        carb: multiply(diet.quantity, diet.food!.carb),
-        protein: multiply(diet.quantity, diet.food!.protein),
-        kcal: multiply(diet.quantity, diet.food!.kcal),
-      }
-    })
   }
 
   findOne(id: number) {
@@ -77,6 +63,6 @@ export class DietService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} diet`;
+    return this.prisma.diet.delete({ where: { id } });
   }
 }

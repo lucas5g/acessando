@@ -1,9 +1,9 @@
 import os
 import time
 import streamlit as st
+import requests
 from enum import Enum
 from dotenv import load_dotenv
-
 load_dotenv()
 
 class Type(Enum):
@@ -11,13 +11,10 @@ class Type(Enum):
     WARNING = "warning"
     ERROR = "error"
 
-class Util:
-  def api_url(self):
+def api_url():
     return os.getenv('API_URL')
-  
 
-
-  def alert(self, message: str, type: Type):
+def alert(message: str, type: Type):
 
     if isinstance(message, list):
         message = "\n".join(message)
@@ -33,3 +30,24 @@ class Util:
     time.sleep(2)
     st.rerun()
     display.empty()
+
+
+def update_many( model:str, data: list):
+
+    if len(data) == 0:
+        return
+    
+    for item in data:        
+        res = requests.patch(f"{api_url()}/{model}/{item['id']}", json=item)
+        
+        return res.json()
+    
+def delete_many( model:str, data: list):
+
+    if len(data) == 0:
+        return
+    
+    for item in data:        
+        res = requests.delete(f"{api_url()}/{model}/{item['id']}")
+        
+        return res.json()

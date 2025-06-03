@@ -1,67 +1,69 @@
 import requests
 import streamlit as st
-from services.Util import Util, Type
-from services.AlimentoService import AlimentoService
-class DietaService(Util):
+
+from services.util import api_url, delete_many
+from services.AlimentoService import find_many_api
+
+def create_table( header:str, key:str, data: dict):
+    if data.get(key) is None:
+        return
     
-    def find_many(self):
-        
-        res = requests.get(f"{self.api_url()}/diets")    
-        data = res.json()
+    data_select = data[key]
+
+    st.subheader(header)
+    edited_df = st.data_editor(
+        data_select,
+        num_rows="dynamic",
     
-        self.create_table_diet('Café da manhã', 'BREAKFAST', data)   
-        self.create_table_diet('Almoço', 'LUNCH', data)      
-        self.create_table_diet('Lanche', 'SNACK', data)   
-        self.create_table_diet('Jantar', 'DINNER', data)  
-        
-        # update_many('dieats', diff)
-        
-        return res.json()
-  
-  
-    def create_table_diet(self, header:str, key:str, data: dict):
-        if data.get(key) is None:
-            return
+    )
     
-        st.subheader(header)
-        st.data_editor(
-            data[key]
+    updated_list = [item for item in edited_df if item not in data_select]
+    # deleted_list = [item for item in data_select if item not in edited_df]
+    
+    st.write(updated_list)
+    # delete_many('diets', deleted_list)
+         
+    
+def find_many():
+        
+    res = requests.get(f"{api_url()}/diets")    
+    data = res.json()
+
+    create_table('Café da manhã', 'BREAKFAST', data)   
+    create_table('Almoço', 'LUNCH', data)      
+    create_table('Lanche', 'SNACK', data)   
+    create_table('Jantar', 'DINNER', data)  
+        
+def create():
+    with st.form(
+        "Dieta",
+    ):
+        meals = {
+            "Café da manhã": "BREAKFAST",
+            "Almoço": "LUNCH",
+            "Lanche": "SNACK",
+            "Jantar": "DINNER",
+        }
+
+        meal = st.selectbox("Refeição", meals.keys())
+
+        food = st.selectbox(
+            "Alimento", find_many_api(), format_func=lambda x: x["name"]
         )
-    
-     
-    
+        quantity = st.number_input("Quantidade", value=1)
+        submitted = st.form_submit_button("SALVAR")
 
-  
-    def create(self):
-        with st.form(
-            "Dieta",
-        ):
-            meals = {
-                "Café da manhã": "BREAKFAST",
-                "Almoço": "LUNCH",
-                "Lanche": "SNACK",
-                "Jantar": "DINNER",
-            }
+        if not submitted:
+            return
 
-            meal = st.selectbox("Refeição", meals.keys())
+        payload = {"foodId": food["id"], "quantity": quantity, "meal": meals[meal]}
 
-            food = st.selectbox(
-                "Alimento", AlimentoService().get_foods_api(), format_func=lambda x: x["name"]
-            )
-            quantity = st.number_input("Quantidade", value=1)
-            submitted = st.form_submit_button("SALVAR")
+        res = requests.post(
+            f"{self.api_url()}/diets",
+            json=payload,
+        )
 
-            if not submitted:
-                return
+        if res.status_code == 201:
+            return self.alert("Dieta criada com sucesso!", Type.SUCCESS)
 
-            payload = {"foodId": food["id"], "quantity": quantity, "meal": meals[meal]}
-
-            res = requests.post(
-                f"{self.api_url()}/diets",
-                json=payload,
-            )
-
-            if res.status_code == 201:
-                return self.alert("Dieta criada com sucesso!", Type.SUCCESS)
-
-            return self.alert(res.json()["message"], Type.WARNING)
+        return self.alert(res.json()["message"], Type.WARNING)
