@@ -1,18 +1,20 @@
 import streamlit as st
-from utils import get_diets, create_diet
+from services.DietaService import DietaService
+service = DietaService()
+
 
 st.set_page_config(
     layout="wide",
     page_title="Dieta",
 )
 
-st.header("Calculadora de Dieta")
+st.header("Dieta")
 
 
 tabList, tabCreate = st.tabs(["Listar", "Criar"])
 
 with tabList:
-    get_diets()
+    service.find_many()
 
 with tabCreate:
-    create_diet()
+    service.create()

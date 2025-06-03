@@ -1,6 +1,8 @@
 import streamlit as st
 
-from utils import get_foods, create_food
+from services.AlimentoService import AlimentoService
+
+service = AlimentoService()
 
 st.set_page_config(
     layout="wide",
@@ -11,6 +13,6 @@ st.header("Alimentos")
 tabList, tabCreate = st.tabs(["Listar", "Criar"])
 
 with tabCreate:
-    create_food()
+    service.create()
 with tabList:
-    get_foods()
+    service.find_many()

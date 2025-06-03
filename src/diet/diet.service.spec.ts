@@ -15,8 +15,7 @@ describe('DietService', () => {
 
   it('findAll', async () => {
     const res = await service.findAll();
-    // console.log(res.slice(0, 2));
-    console.log(res.map(row => row.Refeição));
+    console.log(res);
 
   });
 });

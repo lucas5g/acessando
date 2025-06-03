@@ -35,18 +35,34 @@ export class DietService {
         meal: 'asc'
       }
     });
-
     const multiply = (quantity: number, macro: number) => quantity * macro
+
+    const dieatsGroupMeal = dieats.reduce((acc, diet) => {
+      acc[diet.meal] ??= [];
+      acc[diet.meal].push({
+        id: diet.id,
+        quantity: diet.quantity,
+        food: diet.food?.name,
+        fat: multiply(diet.quantity, diet.food!.fat),
+        carb: multiply(diet.quantity, diet.food!.carb),
+        protein: multiply(diet.quantity, diet.food!.protein),
+        kcal: multiply(diet.quantity, diet.food!.kcal),
+      });
+      return acc;
+    }, {})
+    return dieatsGroupMeal
+    // return dieats;
+
 
     return dieats.map((diet) => {
       return {
         id: diet.id,
-        Refeição: MealEnum[diet.meal],
-        Quantidade: diet.quantity,
-        Alimento: diet.food?.name,
-        Gordura: multiply(diet.quantity, diet.food!.fat),
-        Carboitrato: multiply(diet.quantity, diet.food!.carb),
-        Proteína: multiply(diet.quantity, diet.food!.protein),
+        meal: MealEnum[diet.meal],
+        food: diet.food?.name,
+        quantity: diet.quantity,
+        fat: multiply(diet.quantity, diet.food!.fat),
+        carb: multiply(diet.quantity, diet.food!.carb),
+        protein: multiply(diet.quantity, diet.food!.protein),
         kcal: multiply(diet.quantity, diet.food!.kcal),
       }
     })

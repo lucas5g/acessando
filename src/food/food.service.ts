@@ -19,7 +19,7 @@ export class FoodService {
   }
 
   update(id: number, updateFoodDto: UpdateFoodDto) {
-    return `This action updates a #${id} food`;
+    return this.prisma.food.update({ where: { id }, data: updateFoodDto });
   }
 
   remove(id: number) {
