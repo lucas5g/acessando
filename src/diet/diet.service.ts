@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import { CreateDietDto } from '@/diet/dto/create-diet.dto';
 import { UpdateDietDto } from '@/diet/dto/update-diet.dto';
-import { MealEnum } from '@/diet/diet.enum';
 
 @Injectable()
 export class DietService {
@@ -55,11 +54,11 @@ export class DietService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} diet`;
+    return this.prisma.diet.findUniqueOrThrow({ where: { id } });
   }
 
   update(id: number, updateDietDto: UpdateDietDto) {
-    return `This action updates a #${id} diet`;
+    return this.prisma.diet.update({ where: { id }, data: updateDietDto });
   }
 
   remove(id: number) {
